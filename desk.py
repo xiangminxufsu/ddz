@@ -12,28 +12,16 @@ class Table(object):
 		self.players.append(player)
 
 	def add_cards(self, cards):
-		self._cards = cards
+		self.cards = cards
 
-	def distribute_card(self):
-		self._cards.shuffle()
-		# for ddz only
-		self._bonus_card = [self._cards.draw() for _ in range(3)] #bonus card for landloard
-		for player in self.players:
-			for _ in range(17):
-				player.add_card(self._cards.draw())
-			if player.is_lord:
-				for card in self._bonus_card:
-					player.add_card(card)
-			player.sort_card()
+	def add_event(self, event):
+		self.event = event
 
 
-
-
-
-
-
-
-
+	def start(self):
+		self.event.add_players(self.players)
+		self.event.add_cards(self.cards)
+		self.event.start()
 
 
 

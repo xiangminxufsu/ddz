@@ -9,6 +9,8 @@ class Card(object):
 		self.val = val
 		self.type = type
 		self.suit = self.suits[self.type]
+	def __str__(self):
+		return '{0}, {1}'.format(self.suit, self.val)
 
 class Cards(object):
 

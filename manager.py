@@ -1,18 +1,16 @@
 from card import Cards
 from desk import Table
-from player import Player
-
+from player import AiPlayer, Player
+from event import DDZEvent
 
 def main():
 	table = Table()
 	table.add_cards(Cards())
+	table.add_player(AiPlayer())
+	table.add_player(AiPlayer())
 	table.add_player(Player())
-	table.add_player(Player())
-	table.add_player(Player())
-	table.distribute_card()
-	for p in table.players:
-		p.print_cards()
-		print
+	table.add_event(DDZEvent())
+	table.start()
 
 
 
