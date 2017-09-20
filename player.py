@@ -1,5 +1,6 @@
 """class that defines players."""
-
+import collections
+import rule
 
 class PlayerBase(object):
 
@@ -32,6 +33,11 @@ class PlayerBase(object):
 	def draw(self, pre_val):
 		card = self.hold_cards.pop(0)
 		print(self.name, ':', str(card))
+
+	def card_to_val(self):
+		res = collections.defaultdict(int)
+		for card in self.hold_cards:
+			res[hold_cards.symbol] += 1
 
 	@classmethod
 	def get_default_name(cls):

@@ -1,7 +1,7 @@
 """class of cards"""
 import random
 
-class Card(object):
+class CardBase(object):
 
 	suits = ['hearts', 'diamonds', 'clubs', 'spades', 'black joker', 'red joker']
 	
@@ -9,8 +9,24 @@ class Card(object):
 		self.val = val
 		self.type = type
 		self.suit = self.suits[self.type]
+		self.symbol = None
 	def __str__(self):
-		return '{0}, {1}'.format(self.suit, self.val)
+		return '{0},{1}'.format(self.suit, self.val)
+
+class DDZCard(CardBase):
+	symbol_d = {10:'0', 11:'J', 12:'Q', 13:'K', 14:'A', 15:'2', 16:'w', 17:'W'}
+	def __init__(self, val, type):
+		super(DDZCard, self).__init__(val, type)
+		if val == 1:
+			self.val = 14
+		elif val == 2:
+			self.val = 15
+		if self.val in self.symbol_d:
+			self.symbol = self.symbol_d[self.val]
+		else:
+			self.symbol = str(self.val)
+	def __str__(self):
+		return '{0},{1}'.format(self.suit, self.symbol)
 
 class Cards(object):
 
@@ -23,11 +39,11 @@ class Cards(object):
 	def fill(self):
 		for i in range(self.deck):
 			for j in range(52):
-				card = Card(j%13+1, int(j/13))
+				card = DDZCard(j%13+1, int(j/13))
 				self.cards.append(card)
 			if self.joker:
-				self.cards.append(Card(14, 4))
-				self.cards.append(Card(15, 5))
+				self.cards.append(DDZCard(16, 4))
+				self.cards.append(DDZCard(17, 5))
 
 	def draw(self):
 		return self.cards.pop()
