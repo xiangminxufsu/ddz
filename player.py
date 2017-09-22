@@ -1,6 +1,5 @@
 """class that defines players."""
 import collections
-import rule
 
 class PlayerBase(object):
 
@@ -22,17 +21,23 @@ class PlayerBase(object):
 		self.hold_cards.sort(key=lambda card: card.val)
 
 	def print_cards(self):
-		for card in self.hold_cards:
-			print (card.val, card.suit),
+		hold_cards = ''.join([card.symbol for card in self.hold_cards])
+		played_cards = ''.join([card.symbol for card in self.played_cards])
+		print(str(self), '    ',hold_cards, '     ',played_cards)
 
 	def empty(self):
 		if self.hold_cards:
 			return False
 		return True
 
-	def draw(self, pre_val):
-		card = self.hold_cards.pop(0)
-		print(self.name, ':', str(card))
+	@classmethod
+	def add_rule(cls, rule):
+		cls.rule = rule
+
+	def draw(self, pre_type, pre_seq):
+		card_type, seq, played_cards = self.rule.draw(pre_type, pre_seq ,self.hold_cards)
+		self.played_cards += played_cards
+		return card_type, seq
 
 	def card_to_val(self):
 		res = collections.defaultdict(int)
@@ -49,13 +54,13 @@ class AiPlayer(PlayerBase):
 	pass
 
 	def __str__(self):
-		return 'AiPlayer'
+		return 'AiPlayer {0}'.format(self.name)
 
 class Player(PlayerBase):
 	pass
 
 	def __str__(self):
-		return 'Human_Player'
+		return 'Human_Player {0}'.format(self.name)
 
 
 

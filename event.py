@@ -33,16 +33,23 @@ class DDZEvent(Event):
 		elif self.players[2].is_lord:
 			p  = 2
 		
-		pre_val = -1
+		pre_type, pre_seq = None, None
 		game_on = True
 		while game_on:
 			for _ in range(3):
 				p = (p+1)%3
-				self.players[p].draw(pre_val)
-				#time.sleep(0.2)
+				card_type, seq = self.players[p].draw(pre_type, pre_seq)
+				pre_type, pre_seq = card_type, seq
+				if seq:
+					print(seq, end=' ')#, self.players[p].print_cards())
+				else:
+					print('Bu Chu', end = ' ')
+				self.players[p].print_cards()
+				#time.sleep(2)
 				if self.players[p].empty():
 					self.players[p].win = True
 					game_on = False
+					break
 			#break
 		print('=====Game Over======')
 
